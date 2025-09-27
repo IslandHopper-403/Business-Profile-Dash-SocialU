@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business Profile Manager</title>
+    <link rel="stylesheet" href="main.css">
+    <style>
+        .profile-header {
+            background: white;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .back-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        .header-title {
+            font-size: 18px;
+            font-weight: 700;
+        }
+        .save-btn {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .profile-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+        .profile-preview {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .preview-banner {
+            height: 120px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+        }
+        .preview-logo {
+            position: absolute;
+            bottom: -30px;
+            left: 20px;
+            width: 80px;
+            height: 80px;
+            border-radius: 16px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            border: 3px solid white;
+        }
+        .preview-content {
+            padding: 40px 20px 20px;
+        }
+        .preview-name {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        .preview-type {
+            color: #64748b;
+            margin-bottom: 12px;
+        }
+        .preview-status {
+            display: inline-block;
+            padding: 4px 12px;
+            background: #dcfce7;
+            color: #166534;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #0f172a;
+        }
+        .form-group {
+            margin-bottom: 16px;
+        }
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #334155;
+        }
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            background: white;
+        }
+        .form-textarea {
+            min-height: 100px;
+            resize: vertical;
+            font-family: inherit;
+        }
+        .form-select {
+            width: 100%;
+            padding: 12px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .tag-input {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 8px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            min-height: 44px;
+        }
+        .tag {
+            background: #3b82f6;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 16px;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .tag-remove {
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .hours-grid {
+            display: grid;
+            gap: 8px;
+        }
+        .hours-row {
+            display: grid;
+            grid-template-columns: 80px 1fr 1fr;
+            gap: 8px;
+            align-items: center;
+        }
+        .day-label {
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .toggle-switch-small {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+        }
+        .toggle-input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #cbd5e1;
+            transition: .4s;
+            border-radius: 24px;
+        }
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        .toggle-input:checked + .toggle-slider {
+            background-color: #3b82f6;
+        }
+        .toggle-input:checked + .toggle-slider:before {
+            transform: translateX(20px);
+        }
+        .social-links {
+            display: grid;
+            gap: 10px;
+        }
+        .social-input {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .social-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+        .instagram { background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%); color: white; }
+        .facebook { background: #1877f2; color: white; }
+        .website { background: #10b981; color: white; }
+        .verification-badge {
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+            border: 1px solid #93c5fd;
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 20px;
+        }
+        .badge-title {
+            font-weight: 600;
+            color: #1e40af;
+            margin-bottom: 8px;
+        }
+        .badge-items {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .badge-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+        .check-icon {
+            color: #10b981;
+        }
+        .pending-icon {
+            color: #f59e0b;
+        }
+    </style>
+</head>
+<body>
+    <div class="mobile-container">
+        <div class="profile-header">
+            <button class="back-btn" onclick="window.location.href='index.html'">←</button>
+            <div class="header-title">Edit Profile</div>
+            <button class="save-btn" onclick="saveProfile()">Save</button>
+        </div>
+        
+        <div class="profile-content">
+            <!-- Live Preview -->
+            <div class="profile-preview">
+                <div class="preview-banner"></div>
+                <div class="preview-logo">🍜</div>
+                <div class="preview-content">
+                    <div class="preview-name">Banh Mi Queen</div>
+                    <div class="preview-type">Vietnamese Restaurant</div>
+                    <div class="preview-status">✓ Verified Business</div>
+                </div>
+            </div>
+            
+            <!-- Basic Information -->
+            <div class="section">
+                <div class="section-title">Basic Information</div>
+                
+                <div class="form-group">
+                    <label class="form-label">Business Name</label>
+                    <input type="text" class="form-input" value="Banh Mi Queen" placeholder="Your business name">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Business Type</label>
+                    <select class="form-select">
+                        <option selected>Restaurant/Bar</option>
+                        <option>Café</option>
+                        <option>Activity/Tour</option>
+                        <option>Hotel/Hostel</option>
+                        <option>Shop/Retail</option>
+                        <option>Service</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Description</label>
+                    <textarea class="form-input form-textarea" placeholder="Tell travelers about your business...">A vibrant Vietnamese restaurant in the heart of Hoi An, serving authentic banh mi and traditional dishes. Perfect spot for travelers and locals alike!</textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Categories (Tags)</label>
+                    <div class="tag-input">
+                        <div class="tag">Vietnamese <span class="tag-remove" onclick="this.parentElement.remove()">×</span></div>
+                        <div class="tag">Street Food <span class="tag-remove" onclick="this.parentElement.remove()">×</span></div>
+                        <div class="tag">Budget Friendly <span class="tag-remove" onclick="this.parentElement.remove()">×</span></div>
+                        <input type="text" placeholder="Add tag..." style="border: none; outline: none; background: transparent; flex: 1; min-width: 100px;">
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Location & Contact -->
+            <div class="section">
+                <div class="section-title">Location & Contact</div>
+                
+                <div class="form-group">
+                    <label class="form-label">Address</label>
+                    <input type="text" class="form-input" value="123 Tran Phu St, Hoi An" placeholder="Street address">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Phone Number</label>
+                    <input type="tel" class="form-input" value="+84 905 123 456" placeholder="+84 xxx xxx xxx">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">WhatsApp (Optional)</label>
+                    <input type="tel" class="form-input" value="+84 905 123 456" placeholder="+84 xxx xxx xxx">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-input" value="hello@banhmiqueen.com" placeholder="business@email.com">
+                </div>
+            </div>
+            
+            <!-- Business Hours -->
+            <div class="section">
+                <div class="section-title">Business Hours</div>
+                
+                <div class="hours-grid">
+                    <div class="hours-row">
+                        <div class="day-label">Monday</div>
+                        <input type="time" class="form-input" value="08:00">
+                        <input type="time" class="form-input" value="22:00">
+                    </div>
+                    <div class="hours-row">
+                        <div class="day-label">Tuesday</div>
+                        <input type="time" class="form-input" value="08:00">
+                        <input type="time" class="form-input" value="22:00">
+                    </div>
+                    <div class="hours-row">
+                        <div class="day-label">Wednesday</div>
+                        <input type="time" class="form-input" value="08:00">
+                        <input type="time" class="form-input" value="22:00">
+                    </div>
+                    <div class="hours-row">
+                        <div class="day-label">Thursday</div>
+                        <input type="time" class="form-input" value="08:00">
+                        <input type="time" class="form-input" value="22:00">
+                    </div>
+                    <div class="hours-row">
+                        <div class="day-label">Friday</div>
+                        <input type="time" class="form-input" value="08:00">
+                        <input type="time" class="form-input" value="23:00">
+                    </div>
+                    <div class="hours-row">
+                        <div class="day-label">Saturday</div>
+                        <input type="time" class="form-input" value="08:00">
+                        <input type="time" class="form-input" value="23:00">
+                    </div>
+                    <div class="hours-row">
+                        <div class="day-label">Sunday</div>
+                        <label class="toggle-switch-small">
+                            <input type="checkbox" class="toggle-input">
+                            <span class="toggle-slider"></span>
+                        </label>
+                        <span style="font-size: 13px; color: #64748b;">Closed</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Social Media -->
+            <div class="section">
+                <div class="section-title">Social Media</div>
+                
+                <div class="social-links">
+                    <div class="social-input">
+                        <div class="social-icon instagram">📷</div>
+                        <input type="text" class="form-input" placeholder="Instagram username" value="@banhmiqueen">
+                    </div>
+                    <div class="social-input">
+                        <div class="social-icon facebook">f</div>
+                        <input type="text" class="form-input" placeholder="Facebook page URL">
+                    </div>
+                    <div class="social-input">
+                        <div class="social-icon website">🌐</div>
+                        <input type="url" class="form-input" placeholder="Website URL">
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Pricing -->
+            <div class="section">
+                <div class="section-title">Pricing</div>
+                
+                <div class="form-group">
+                    <label class="form-label">Price Range</label>
+                    <select class="form-select">
+                        <option>$ - Budget Friendly (Under 100k VND)</option>
+                        <option selected>$$ - Moderate (100-300k VND)</option>
+                        <option>$$$ - Premium (300k+ VND)</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Average Cost Per Person</label>
+                    <input type="text" class="form-input" value="150,000 VND" placeholder="e.g., 150,000 VND">
+                </div>
+            </div>
+            
+            <!-- Verification Status -->
+            <div class="verification-badge">
+                <div class="badge-title">Verification Status</div>
+                <div class="badge-items">
+                    <div class="badge-item">
+                        <span class="check-icon">✓</span>
+                        <span>Business license verified</span>
+                    </div>
+                    <div class="badge-item">
+                        <span class="check-icon">✓</span>
+                        <span>Location confirmed</span>
+                    </div>
+                    <div class="badge-item">
+                        <span class="check-icon">✓</span>
+                        <span>Phone number verified</span>
+                    </div>
+                    <div class="badge-item">
+                        <span class="pending-icon">⏳</span>
+                        <span>Photos pending review</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <div class="nav-item" onclick="window.location.href='index.html'">
+                <span class="nav-icon">🏠</span>
+                <span class="nav-label">Home</span>
+            </div>
+            <div class="nav-item" onclick="window.location.href='messages.html'">
+                <span class="nav-icon">💬</span>
+                <span class="nav-label">Messages</span>
+            </div>
+            <div class="nav-item active" onclick="window.location.href='profile.html'">
+                <span class="nav-icon">🏪</span>
+                <span class="nav-label">Profile</span>
+            </div>
+            <div class="nav-item" onclick="window.location.href='settings.html'">
+                <span class="nav-icon">⚙️</span>
+                <span class="nav-label">Settings</span>
+            </div>
+        </nav>
+    </div>
+    
+    <div class="toast" id="toast"></div>
+    <script src="main.js"></script>
+    <script>
+        function saveProfile() {
+            showToast('Profile saved successfully!');
+        }
+    </script>
+</body>
+</html>
