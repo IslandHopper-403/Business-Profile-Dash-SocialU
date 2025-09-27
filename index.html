@@ -5,448 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Business Dashboard for managing your business presence">
     <title>Business Dashboard - Banh Mi Queen</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif;
-            background: #f8fafc;
-            color: #1e293b;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-        
-        .mobile-container {
-            width: 100%;
-            max-width: 430px;
-            height: 100vh;
-            max-height: 932px;
-            background: #f8fafc;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
-            border-radius: 20px;
-            overflow: hidden;
-        }
-        
-        /* Header with Business Info */
-        .header {
-            background: white;
-            padding: 20px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        
-        .business-logo {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-        }
-        
-        .header-info .greeting {
-            font-size: 12px;
-            color: #64748b;
-        }
-        
-        .header-info .business-name {
-            font-size: 18px;
-            font-weight: 700;
-            color: #0f172a;
-        }
-        
-        .notification-bell {
-            position: relative;
-            cursor: pointer;
-            font-size: 24px;
-            transition: transform 0.2s ease;
-        }
-        
-        .notification-bell:hover {
-            transform: scale(1.1);
-        }
-        
-        .notification-dot {
-            position: absolute;
-            top: -2px;
-            right: -2px;
-            width: 8px;
-            height: 8px;
-            background: #ef4444;
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-        
-        /* Status Toggle */
-        .status-toggle {
-            margin: 16px 20px;
-            padding: 16px;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .status-info .status-title {
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 4px;
-        }
-        
-        .status-info .status-message {
-            font-size: 12px;
-            color: #64748b;
-        }
-        
-        .toggle-switch {
-            position: relative;
-            width: 56px;
-            height: 30px;
-            background: #10b981;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: background 0.3s ease;
-        }
-        
-        .toggle-switch::after {
-            content: '';
-            position: absolute;
-            top: 3px;
-            right: 3px;
-            width: 24px;
-            height: 24px;
-            background: white;
-            border-radius: 50%;
-            transition: transform 0.3s ease;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        }
-        
-        .toggle-switch.off {
-            background: #e2e8f0;
-        }
-        
-        .toggle-switch.off::after {
-            transform: translateX(-26px);
-        }
-        
-        /* Quick Stats */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
-            padding: 0 20px 16px;
-        }
-        
-        .stat-card {
-            background: white;
-            padding: 16px 12px;
-            border-radius: 12px;
-            text-align: center;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            transition: transform 0.2s ease;
-        }
-        
-        .stat-card:hover {
-            transform: translateY(-2px);
-        }
-        
-        .stat-value {
-            font-size: 20px;
-            font-weight: 700;
-            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .stat-label {
-            font-size: 11px;
-            color: #64748b;
-            margin-top: 4px;
-        }
-        
-        /* Content Area */
-        .content-area {
-            flex: 1;
-            overflow-y: auto;
-            padding-bottom: 80px;
-        }
-        
-        /* Messages Section */
-        .messages-section {
-            margin: 0 20px 16px;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            overflow: hidden;
-        }
-        
-        .section-header {
-            padding: 16px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #f1f5f9;
-        }
-        
-        .section-title {
-            font-size: 16px;
-            font-weight: 600;
-        }
-        
-        .view-all {
-            font-size: 13px;
-            color: #3b82f6;
-            cursor: pointer;
-            transition: color 0.2s ease;
-        }
-        
-        .view-all:hover {
-            color: #2563eb;
-        }
-        
-        .message-list {
-            max-height: 200px;
-            overflow-y: auto;
-        }
-        
-        .message-item {
-            display: flex;
-            padding: 12px 16px;
-            border-bottom: 1px solid #f1f5f9;
-            cursor: pointer;
-            transition: background 0.2s ease;
-        }
-        
-        .message-item:last-child {
-            border-bottom: none;
-        }
-        
-        .message-item:hover {
-            background: #f8fafc;
-        }
-        
-        .message-item.unread {
-            background: #eff6ff;
-        }
-        
-        .message-item.unread:hover {
-            background: #dbeafe;
-        }
-        
-        .customer-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 12px;
-            flex-shrink: 0;
-        }
-        
-        .message-content {
-            flex: 1;
-            min-width: 0;
-        }
-        
-        .message-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 4px;
-        }
-        
-        .customer-name {
-            font-weight: 600;
-            font-size: 14px;
-        }
-        
-        .message-time {
-            font-size: 12px;
-            color: #9ca3af;
-        }
-        
-        .message-preview {
-            font-size: 13px;
-            color: #64748b;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-        
-        /* Quick Actions Grid */
-        .actions-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            padding: 0 20px 20px;
-        }
-        
-        .action-card {
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-        
-        .action-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
-        
-        .action-card:active {
-            transform: translateY(0);
-        }
-        
-        .action-card.highlight {
-            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-            color: white;
-        }
-        
-        .action-badge {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            background: #ef4444;
-            color: white;
-            padding: 3px 8px;
-            border-radius: 10px;
-            font-size: 11px;
-            font-weight: 600;
-        }
-        
-        .action-icon {
-            font-size: 28px;
-            margin-bottom: 8px;
-        }
-        
-        .action-title {
-            font-size: 15px;
-            font-weight: 600;
-        }
-        
-        .action-subtitle {
-            font-size: 12px;
-            opacity: 0.8;
-            margin-top: 4px;
-        }
-        
-        /* Bottom Navigation */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            max-width: 430px;
-            background: white;
-            padding: 12px 20px;
-            display: flex;
-            justify-content: space-around;
-            box-shadow: 0 -1px 3px rgba(0,0,0,0.1);
-            border-radius: 20px 20px 0 0;
-        }
-        
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-            cursor: pointer;
-            padding: 8px;
-            border-radius: 8px;
-            transition: all 0.2s ease;
-        }
-        
-        .nav-item:hover {
-            background: #f8fafc;
-        }
-        
-        .nav-item.active {
-            background: #eff6ff;
-            color: #3b82f6;
-        }
-        
-        .nav-icon {
-            font-size: 20px;
-        }
-        
-        .nav-label {
-            font-size: 11px;
-        }
-        
-        /* Toast Notification */
-        .toast {
-            position: fixed;
-            top: 80px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #1e293b;
-            color: white;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-size: 14px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-            display: none;
-            animation: slideDown 0.3s ease;
-            z-index: 1000;
-        }
-        
-        .toast.show {
-            display: block;
-        }
-        
-        @keyframes slideDown {
-            from {
-                transform: translate(-50%, -20px);
-                opacity: 0;
-            }
-            to {
-                transform: translate(-50%, 0);
-                opacity: 1;
-            }
-        }
-        
-        /* Responsive adjustments */
-        @media (max-width: 430px) {
-            body {
-                padding: 0;
-            }
-            
-            .mobile-container {
-                border-radius: 0;
-                max-height: 100vh;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="main.css">
 </head>
 <body>
     <div class="mobile-container">
@@ -455,7 +14,7 @@
             <div class="header-left">
                 <div class="business-logo">🍜</div>
                 <div class="header-info">
-                    <div class="greeting">Good morning</div>
+                    <div class="greeting" id="greeting">Good morning</div>
                     <div class="business-name">Banh Mi Queen</div>
                 </div>
             </div>
@@ -471,17 +30,17 @@
                 <div class="status-title">Business Status</div>
                 <div class="status-message" id="statusMessage">Currently accepting orders</div>
             </div>
-            <div class="toggle-switch" onclick="toggleStatus(this)"></div>
+            <div class="toggle-switch" id="businessToggle" onclick="toggleStatus(this)"></div>
         </div>
         
         <!-- Quick Stats -->
         <div class="stats-grid">
             <div class="stat-card">
-                <div class="stat-value">247</div>
+                <div class="stat-value" id="viewsCount">247</div>
                 <div class="stat-label">Views</div>
             </div>
             <div class="stat-card">
-                <div class="stat-value">18</div>
+                <div class="stat-value" id="messagesCount">18</div>
                 <div class="stat-label">Messages</div>
             </div>
             <div class="stat-card">
@@ -500,10 +59,10 @@
             <div class="messages-section">
                 <div class="section-header">
                     <div class="section-title">Recent Messages</div>
-                    <div class="view-all" onclick="showToast('Opening all messages...')">View All</div>
+                    <div class="view-all" onclick="window.location.href='messages.html'">View All</div>
                 </div>
                 <div class="message-list">
-                    <div class="message-item unread" onclick="showToast('Opening message from Sarah Chen')">
+                    <div class="message-item unread" onclick="openMessage('Sarah Chen')">
                         <div class="customer-avatar">👤</div>
                         <div class="message-content">
                             <div class="message-header">
@@ -513,7 +72,7 @@
                             <div class="message-preview">Do you have tables available for tonight?</div>
                         </div>
                     </div>
-                    <div class="message-item unread" onclick="showToast('Opening message from Mike Johnson')">
+                    <div class="message-item unread" onclick="openMessage('Mike Johnson')">
                         <div class="customer-avatar">👤</div>
                         <div class="message-content">
                             <div class="message-header">
@@ -523,7 +82,7 @@
                             <div class="message-preview">What time is happy hour today?</div>
                         </div>
                     </div>
-                    <div class="message-item" onclick="showToast('Opening message from Emma Wilson')">
+                    <div class="message-item" onclick="openMessage('Emma Wilson')">
                         <div class="customer-avatar">👤</div>
                         <div class="message-content">
                             <div class="message-header">
@@ -538,23 +97,23 @@
             
             <!-- Quick Actions -->
             <div class="actions-grid">
-                <div class="action-card highlight" onclick="showToast('Opening Promotions...')">
+                <div class="action-card highlight" onclick="window.location.href='promotions.html'">
                     <span class="action-badge">3</span>
                     <div class="action-icon">📢</div>
                     <div class="action-title">Promotions</div>
                     <div class="action-subtitle">Manage offers</div>
                 </div>
-                <div class="action-card" onclick="showToast('Opening Photo Gallery...')">
+                <div class="action-card" onclick="window.location.href='photos.html'">
                     <div class="action-icon">📸</div>
                     <div class="action-title">Photos</div>
                     <div class="action-subtitle">Update gallery</div>
                 </div>
-                <div class="action-card" onclick="showToast('Opening Analytics...')">
+                <div class="action-card" onclick="window.location.href='analytics.html'">
                     <div class="action-icon">📊</div>
                     <div class="action-title">Analytics</div>
                     <div class="action-subtitle">View insights</div>
                 </div>
-                <div class="action-card" onclick="showToast('Opening Reviews...')">
+                <div class="action-card" onclick="window.location.href='reviews.html'">
                     <div class="action-icon">⭐</div>
                     <div class="action-title">Reviews</div>
                     <div class="action-subtitle">124 reviews</div>
@@ -564,19 +123,19 @@
         
         <!-- Bottom Navigation -->
         <nav class="bottom-nav">
-            <div class="nav-item active" onclick="setActiveNav(this)">
+            <div class="nav-item active" onclick="window.location.href='index.html'">
                 <span class="nav-icon">🏠</span>
                 <span class="nav-label">Home</span>
             </div>
-            <div class="nav-item" onclick="setActiveNav(this)">
+            <div class="nav-item" onclick="window.location.href='messages.html'">
                 <span class="nav-icon">💬</span>
                 <span class="nav-label">Messages</span>
             </div>
-            <div class="nav-item" onclick="setActiveNav(this)">
+            <div class="nav-item" onclick="window.location.href='profile.html'">
                 <span class="nav-icon">🏪</span>
                 <span class="nav-label">Profile</span>
             </div>
-            <div class="nav-item" onclick="setActiveNav(this)">
+            <div class="nav-item" onclick="window.location.href='settings.html'">
                 <span class="nav-icon">⚙️</span>
                 <span class="nav-label">Settings</span>
             </div>
@@ -586,52 +145,6 @@
     <!-- Toast Notification -->
     <div class="toast" id="toast"></div>
     
-    <script>
-        function toggleStatus(toggle) {
-            toggle.classList.toggle('off');
-            const statusMsg = document.getElementById('statusMessage');
-            if (toggle.classList.contains('off')) {
-                statusMsg.textContent = 'Currently offline';
-                showToast('Business is now offline');
-            } else {
-                statusMsg.textContent = 'Currently accepting orders';
-                showToast('Business is now online');
-            }
-        }
-        
-        function setActiveNav(item) {
-            document.querySelectorAll('.nav-item').forEach(nav => {
-                nav.classList.remove('active');
-            });
-            item.classList.add('active');
-            const label = item.querySelector('.nav-label').textContent;
-            showToast(`Navigating to ${label}`);
-        }
-        
-        function showToast(message) {
-            const toast = document.getElementById('toast');
-            toast.textContent = message;
-            toast.classList.add('show');
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 2000);
-        }
-        
-        // Update greeting based on time of day
-        function updateGreeting() {
-            const hour = new Date().getHours();
-            const greetingEl = document.querySelector('.greeting');
-            if (hour < 12) {
-                greetingEl.textContent = 'Good morning';
-            } else if (hour < 18) {
-                greetingEl.textContent = 'Good afternoon';
-            } else {
-                greetingEl.textContent = 'Good evening';
-            }
-        }
-        
-        // Initialize on page load
-        updateGreeting();
-    </script>
+    <script src="main.js"></script>
 </body>
 </html>
